@@ -1009,26 +1009,224 @@ void mousePressed() {
 
 } //<>//
 void keyPressed(){
-  if(testerMode){ //<>//
-    if(keyCode == 192){
+  println(key); //<>//
+    println(keyCode);
+  if(testerMode){
+    if(keyCode == 192){ //tilde
       FirstRowTop[0] = tilde_yellow;
       picked = tilde_black;
     }
-    else if(keyCode == 49){
+    else if(keyCode == 48){ //zero
+      FirstRowTop[10] = Zero_yellow;
+      picked = Zero_black;
+    }
+    else if(keyCode == 49){ //one
       FirstRowTop[1] = One_yellow;
       picked = One_black;
     }
-    else if(keyCode == 50){
+    else if(keyCode == 50){ //two
       FirstRowTop[2] = Two_yellow;
       picked = Two_black;
     }
-    else if(keyCode == 51){
+    else if(keyCode == 51){ //three
       FirstRowTop[3] = Three_yellow;
       picked = Two_black;
     }
-    else if(keyCode == 52){
+    else if(keyCode == 52){ //four
       FirstRowTop[4] = Four_yellow;    
       picked = Two_black;
+    }
+    else if(keyCode == 53){ //five
+      FirstRowTop[5] = Five_yellow;
+      picked = Five_black;
+    }
+    else if(keyCode == 54){ //six
+      FirstRowTop[6] = Six_yellow;
+      picked = Six_black;
+    }
+    else if(keyCode == 55){ //seven
+      FirstRowTop[7] = Seven_yellow;
+      picked = Seven_black;
+    }
+    else if(keyCode == 56){ //eight
+      FirstRowTop[8] = Eight_yellow;
+      picked = Eight_black;
+    }
+    else if(keyCode == 57){ //nine
+      FirstRowTop[9] = Nine_yellow;
+      picked = Nine_black;
+    }
+    else if(keyCode == 45){ //dash
+      FirstRowTop[11] = Dash_yellow;
+      picked = Dash_black;
+    }
+    else if(keyCode == 61){ //dash
+      FirstRowTop[12] = Equal_yellow;
+      picked = Equal_black;
+    }
+    else if(keyCode == 81){ //Q
+      SecondRowTop[0] = Q_yellow;
+      picked = Q_black;
+    }
+    else if(keyCode == 87){ //W
+      SecondRowTop[1] = W_yellow;
+      picked = W_black;
+    }
+    else if(keyCode == 69){ //E
+      SecondRowTop[2] = E_yellow;
+      picked = E_black;
+    }
+    else if(keyCode == 82){ //R
+      SecondRowTop[3] = R_yellow;
+      picked = R_black;
+    }
+    else if(keyCode == 84){ //T
+      SecondRowTop[4] = T_yellow;
+      picked = T_black;
+    }
+    else if(keyCode == 89){ //Y
+      SecondRowTop[5] = Y_yellow;
+      picked = Y_black;
+    }
+    else if(keyCode == 85){ //U
+      SecondRowTop[6] = U_yellow;
+      picked = U_black;
+    }
+    else if(keyCode == 73){ //I
+      SecondRowTop[7] = I_yellow;
+      picked = I_black;
+    }
+    else if(keyCode == 79){ //O
+      SecondRowTop[8] = O_yellow;
+      picked = O_black;
+    }
+    else if(keyCode == 80){ //P
+      SecondRowTop[9] = P_yellow;
+      picked = P_black;
+    }
+    else if(keyCode == 91){ //[
+      SecondRowTop[10] = LeftBracket_yellow;
+      picked = LeftBracket_black;
+    }
+    else if(keyCode == 93){ //]
+      SecondRowTop[11] = RightBracket_yellow;
+      picked = RightBracket_black;
+    }
+    else if(keyCode == 92){ //\
+      SecondRowTop[12] = Backslash_yellow;
+      picked = Backslash_black;
+    }
+    else if(keyCode == 65){ //A
+      ThirdRowTop[0] = A_yellow;
+      picked = A_black;
+    }
+    else if(keyCode == 83){ //S
+      ThirdRowTop[1] = S_yellow;
+      picked = S_black;
+    }
+    else if(keyCode == 68){ //D
+      ThirdRowTop[2] = D_yellow;
+      picked = D_black;
+    }
+    else if(keyCode == 70){ //F
+      ThirdRowTop[3] = F_yellow;
+      picked = F_black;
+    }
+    else if(keyCode == 71){ //G
+      ThirdRowTop[4] = G_yellow;
+      picked = G_black;
+    }
+    else if(keyCode == 72){ //H
+      ThirdRowTop[5] = H_yellow;
+      picked = H_black;
+    }
+    else if(keyCode == 74){ //J
+      ThirdRowTop[6] = J_yellow;
+      picked = J_black;
+    }
+    else if(keyCode == 75){ //K
+      ThirdRowTop[7] = K_yellow;
+      picked = K_black;
+    }
+    else if(keyCode == 76){ //L
+      ThirdRowTop[8] = L_yellow;
+      picked = L_black;
+    }
+    else if(keyCode == 59){ //;
+      ThirdRowTop[9] = Semicolon_yellow;
+      picked = Semicolon_black;
+    }
+    else if(keyCode == 222){ //'
+      ThirdRowTop[10] = Quotes_yellow;
+      picked = Quotes_black;
+    }
+    else if(keyCode == 10 || keyCode == RETURN || keyCode == ENTER ){ //Return
+      ThirdRowTop[11] = Return_yellow;
+      picked = Return_black;
+    }
+    else if(keyCode == 90){ //Z
+      FourthRowTop[0] = Z_yellow;
+      picked = Z_black;
+    }
+    else if(keyCode == 88){ //X
+      FourthRowTop[1] = X_yellow;
+      picked = X_black;
+    }
+    else if(keyCode == 67){ //C
+      FourthRowTop[2] = C_yellow;
+      picked = C_black;
+    }
+    else if(keyCode == 86){ //V
+      FourthRowTop[3] = V_yellow;
+      picked = V_black;
+    }
+    else if(keyCode == 66){ //B
+      FourthRowTop[4] = B_yellow;
+      picked = B_black;
+    }
+    else if(keyCode == 78){ //N
+      FourthRowTop[5] = N_yellow;
+      picked = N_black;
+    }
+    else if(keyCode == 77){ //M
+      FourthRowTop[6] = M_yellow;
+      picked = M_black;
+    }
+    else if(keyCode == 44){ //,
+      FourthRowTop[7] = Comma_yellow;
+      picked = Comma_black;
+    }
+    else if(keyCode == 46){ //.
+      FourthRowTop[8] = Period_yellow;
+      picked = Period_black;
+    }
+    else if(keyCode == 47){ ///
+      FourthRowTop[9] = Forwardslash_yellow;
+      picked = Forwardslash_black;
+    }
+    else if(keyCode == 16){ //Shift
+      SpecialKeysTop[0] = Shift_yellow;
+      picked = Shift_black;
+    }
+    else if(keyCode == 17){ //Left Control
+      SpecialKeysTop[1] = Control_yellow;
+      picked = Control_black;
+    }
+    else if(keyCode == 18){ //Option
+      SpecialKeysTop[2] = Option_yellow;
+      picked = Option_black;
+      SpecialKeysTop[6] = Option_yellow;
+      picked = Option_black;
+    }
+    else if(keyCode == 157){ //Left Command
+      SpecialKeysTop[3] = Command_yellow;
+      picked = Command_black;
+      SpecialKeysTop[5] = Command_yellow;
+      picked = Command_black;
+    }
+    else if(keyCode == 32){ //Space
+      SpecialKeysTop[4] = Space_yellow;
+      picked = Space_black;
     }
   }
 }
@@ -1049,6 +1247,202 @@ void keyReleased(){
     else if(keyCode == 51){
       FirstRowTop[3] = Three_black;
       picked = Two_black;
+    }
+    else if(keyCode == 52){ //four
+      FirstRowTop[4] = Four_black;    
+      picked = Two_black;
+    }
+        else if(keyCode == 53){ //five
+      FirstRowTop[5] = Five_black;
+      picked = Five_black;
+    }
+    else if(keyCode == 54){ //six
+      FirstRowTop[6] = Six_black;
+      picked = Six_black;
+    }
+    else if(keyCode == 55){ //seven
+      FirstRowTop[7] = Seven_black;
+      picked = Seven_black;
+    }
+    else if(keyCode == 56){ //eight
+      FirstRowTop[8] = Eight_black;
+      picked = Eight_black;
+    }
+    else if(keyCode == 57){ //nine
+      FirstRowTop[9] = Nine_black;
+      picked = Nine_black;
+    }
+    else if(keyCode == 45){ //dash
+      FirstRowTop[11] = Dash_black;
+      picked = Dash_black;
+    }
+    else if(keyCode == 61){ //dash
+      FirstRowTop[12] = Equal_black;
+      picked = Equal_black;
+    }
+    else if(keyCode == 81){ //Q
+      SecondRowTop[0] = Q_black;
+      picked = Q_black;
+    }
+    else if(keyCode == 87){ //W
+      SecondRowTop[1] = W_black;
+      picked = W_black;
+    }
+    else if(keyCode == 69){ //E
+      SecondRowTop[2] = E_black;
+      picked = E_black;
+    }
+    else if(keyCode == 82){ //R
+      SecondRowTop[3] = R_black;
+      picked = R_black;
+    }
+    else if(keyCode == 84){ //T
+      SecondRowTop[4] = T_black;
+      picked = T_black;
+    }
+    else if(keyCode == 89){ //Y
+      SecondRowTop[5] = Y_black;
+      picked = Y_black;
+    }
+    else if(keyCode == 85){ //U
+      SecondRowTop[6] = U_black;
+      picked = U_black;
+    }
+    else if(keyCode == 73){ //I
+      SecondRowTop[7] = I_black;
+      picked = I_black;
+    }
+    else if(keyCode == 79){ //O
+      SecondRowTop[8] = O_black;
+      picked = O_black;
+    }
+    else if(keyCode == 80){ //P
+      SecondRowTop[9] = P_black;
+      picked = P_black;
+    }
+    else if(keyCode == 91){ //[
+      SecondRowTop[10] = LeftBracket_black;
+      picked = LeftBracket_black;
+    }
+    else if(keyCode == 93){ //]
+      SecondRowTop[11] = RightBracket_black;
+      picked = RightBracket_black;
+    }
+    else if(keyCode == 92){ //\
+      SecondRowTop[12] = Backslash_black;
+      picked = Backslash_black;
+    }
+    else if(keyCode == 65){ //A
+      ThirdRowTop[0] = A_black;
+      picked = A_black;
+    }
+    else if(keyCode == 83){ //S
+      ThirdRowTop[1] = S_black;
+      picked = S_black;
+    }
+    else if(keyCode == 68){ //D
+      ThirdRowTop[2] = D_black;
+      picked = D_black;
+    }
+    else if(keyCode == 70){ //F
+      ThirdRowTop[3] = F_black;
+      picked = F_black;
+    }
+    else if(keyCode == 71){ //G
+      ThirdRowTop[4] = G_black;
+      picked = G_black;
+    }
+    else if(keyCode == 72){ //H
+      ThirdRowTop[5] = H_black;
+      picked = H_black;
+    }
+    else if(keyCode == 74){ //J
+      ThirdRowTop[6] = J_black;
+      picked = J_black;
+    }
+    else if(keyCode == 75){ //K
+      ThirdRowTop[7] = K_black;
+      picked = K_black;
+    }
+    else if(keyCode == 76){ //L
+      ThirdRowTop[8] = L_black;
+      picked = L_black;
+    }
+    else if(keyCode == 59){ //;
+      ThirdRowTop[9] = Semicolon_black;
+      picked = Semicolon_black;
+    }
+    else if(keyCode == 222){ //'
+      ThirdRowTop[10] = Quotes_black;
+      picked = Quotes_black;
+    }
+    else if(keyCode == 10 || keyCode == RETURN || keyCode == ENTER ){ //Return
+      ThirdRowTop[11] = Return_black;
+      picked = Return_black;
+    }
+    else if(keyCode == 90){ //Z
+      FourthRowTop[0] = Z_black;
+      picked = Z_black;
+    }
+    else if(keyCode == 88){ //X
+      FourthRowTop[1] = X_black;
+      picked = X_black;
+    }
+    else if(keyCode == 67){ //C
+      FourthRowTop[2] = C_black;
+      picked = C_black;
+    }
+    else if(keyCode == 86){ //V
+      FourthRowTop[3] = V_black;
+      picked = V_black;
+    }
+    else if(keyCode == 66){ //B
+      FourthRowTop[4] = B_black;
+      picked = B_black;
+    }
+    else if(keyCode == 78){ //N
+      FourthRowTop[5] = N_black;
+      picked = N_black;
+    }
+    else if(keyCode == 77){ //M
+      FourthRowTop[6] = M_black;
+      picked = M_black;
+    }
+    else if(keyCode == 44){ //,
+      FourthRowTop[7] = Comma_black;
+      picked = Comma_black;
+    }
+    else if(keyCode == 46){ //.
+      FourthRowTop[8] = Period_black;
+      picked = Period_black;
+    }
+    else if(keyCode == 47){ ///
+      FourthRowTop[9] = Forwardslash_black;
+      picked = Forwardslash_black;
+    }
+    else if(keyCode == 16){ //Shift
+      SpecialKeysTop[0] = Shift_black;
+      picked = Shift_black;
+    }
+    else if(keyCode == 17){ //Left Control
+      SpecialKeysTop[1] = Control_black;
+      picked = Control_black;
+    }
+    else if(keyCode == 18){ //Option
+      SpecialKeysTop[2] = Option_black;
+      picked = Option_black;
+      SpecialKeysTop[6] = Option_black;
+      picked = Option_black;
+    }
+    else if(keyCode == 157){ //Left Command
+      SpecialKeysTop[3] = Command_black;
+      picked = Command_black;
+      SpecialKeysTop[5] = Command_black;
+      picked = Command_black;
+    }
+    else if(keyCode == 32){ //Space
+      SpecialKeysTop[4] = Space_black;
+      picked = Space_black;
     }
   }
 }
