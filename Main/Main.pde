@@ -6,6 +6,7 @@ ControlP5 cp5;
 ControlP5 controlFont;
 DropdownList modeDropdown;
 boolean mapMode = true;
+boolean infoPopup = false;
 boolean testerMode = false;
 
 //UI Colors
@@ -146,6 +147,9 @@ PImage X_yellow;
 PImage Y_yellow;
 PImage Z_yellow;
 
+//Misc
+PImage Info_icon;
+PImage Confirm_Key;
 
 void setup() {
   size(1300, 780);
@@ -265,6 +269,9 @@ void setup() {
   Command_yellow = loadImage("Command_Key_Yellow.png");
   Space_yellow = loadImage("Space_Key_Yellow.png");
   Return_yellow = loadImage("Return_Key_Yellow.png");
+  
+  Info_icon = loadImage("info_icon.png");
+  Confirm_Key = loadImage("Confirm_Key.png");
   
   picked = new PImage();
   
@@ -421,6 +428,8 @@ void draw() {
   noStroke();
   textFont(font);
   rect(0,461,1300,330);
+  image(Info_icon, 1241, 20, 35,35);
+  
   checkMode();
   // (imageVar, x coord, y coord, width, height)
   if(mapMode){
@@ -432,6 +441,7 @@ void draw() {
     //Key tester mode window
     drawUnselectedTop();
   }
+    drawPopup();
 }
 void checkMode(){
   int active = int(modeDropdown.getValue());
@@ -444,7 +454,20 @@ void checkMode(){
     testerMode = true;
   }
 }
-
+void drawPopup(){
+  if(infoPopup){
+  pushMatrix();
+  fill(greyBlue50);
+  rect(313, 90, 670, 278);
+  textAlign(CENTER);
+  fill(white);
+  textSize(20);
+  text("How to use:\nClick on any key in the top palette that you would like to change.\nThen, select your replacement key in the bottom palette. The new key\nwill be automatically saved and ready for use!",
+       640, 175);
+  image(Confirm_Key, 882, 311, 78, 36);
+  popMatrix();
+  }
+}
 void drawUnselectedTop(){
   image(FirstRowTop[0], 320, 92, 39,39);
   image(FirstRowTop[1], 366, 92, 39,39);
@@ -571,6 +594,16 @@ void drawUnselectedBottom(){
 void mousePressed() {
   if (!modeDropdown.isMouseOver()) {    
     modeDropdown.close();
+  }
+  if(pmouseX > 1241 && pmouseX < 1276 && pmouseY > 20 && pmouseY < 55){
+    if(!infoPopup){
+      infoPopup = true;
+    }
+  }
+  if(infoPopup){
+    if(pmouseX > 882 && pmouseX < 960 && pmouseY > 311 && pmouseY < 347){
+      infoPopup = false;
+    }
   }
   // If statements to check what key is picked on the top keyboard
   if(mapMode){
