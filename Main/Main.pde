@@ -612,9 +612,6 @@ void draw() {
   textFont(font);
   rect(0,461,1300,330);
   image(Info_icon, 1241, 20, 35,35);
-  image(TopKeyboardYellow[0], 100, 300, 90,90);
-  image(DisplayKeyboard[0], 100, 200, 90,90);
-  image(TopKeyboardBlack[0], 100, 100, 90,90);
   checkMode();
   rect(0,461,1300,330);
   drawUnselectedTop();
