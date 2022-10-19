@@ -20,15 +20,19 @@ PImage[] SecondRowTop = new PImage[13];
 PImage[] ThirdRowTop = new PImage[12];
 PImage[] FourthRowTop = new PImage[10];
 PImage[] SpecialKeysTop = new PImage[7];
+PImage[] TopKeyboardBlack = new PImage[55];
 
 PImage picked; // set to the image that was picked
-
+int pickedIndex;
 // Image arrays for displaying the bottom keyboard
 PImage[] FirstRowBottom = new PImage[13];
 PImage[] SecondRowBottom = new PImage[13];
 PImage[] ThirdRowBottom = new PImage[12];
 PImage[] FourthRowBottom = new PImage[10];
 PImage[] SpecialKeysBottom = new PImage[7];
+PImage[] TopKeyboardYellow = new PImage[55];
+
+PImage[] DisplayKeyboard = new PImage[55];
 
 PImage tilde_black;
 PImage Semicolon_black;
@@ -151,6 +155,7 @@ void setup() {
   modeDropdown = cp5.addDropdownList("Mode: Key Map").setPosition(20, 20).setOpen(false);
   customize(modeDropdown);
   
+  pickedIndex = 0;
   //Hardcoded Unselected Keys
   tilde_black = loadImage("Tilde_Key_Black.png");
   One_black = loadImage("1_Key_Black.png");
@@ -263,19 +268,50 @@ void setup() {
   picked = new PImage();
   
   // Load rows into the display Arrays
+  TopKeyboardBlack[0] = tilde_black;
+  TopKeyboardBlack[1] = One_black;
+  TopKeyboardBlack[2] = Two_black;
+  TopKeyboardBlack[3] = Three_black;
+  TopKeyboardBlack[4] = Four_black;
+  TopKeyboardBlack[5] = Five_black;
+  TopKeyboardBlack[6] = Six_black;
+  TopKeyboardBlack[7] = Seven_black;
+  TopKeyboardBlack[8] = Eight_black;
+  TopKeyboardBlack[9] = Nine_black;
+  TopKeyboardBlack[10] = Zero_black;
+  TopKeyboardBlack[11] = Dash_black;
+  TopKeyboardBlack[12] = Equal_black;
+  
+  // Yellow
+  TopKeyboardYellow[0] = tilde_yellow;
+  TopKeyboardYellow[1] = One_yellow;
+  TopKeyboardYellow[2] = Two_yellow;
+  TopKeyboardYellow[3] = Three_yellow;
+  TopKeyboardYellow[4] = Four_yellow;
+  TopKeyboardYellow[5] = Five_yellow;
+  TopKeyboardYellow[6] = Six_yellow;
+  TopKeyboardYellow[7] = Seven_yellow;
+  TopKeyboardYellow[8] = Eight_yellow;
+  TopKeyboardYellow[9] = Nine_yellow;
+  TopKeyboardYellow[10] = Zero_yellow;
+  TopKeyboardYellow[11] = Dash_yellow;
+  TopKeyboardYellow[12] = Equal_yellow;
+  
+  // Initialize top array
   FirstRowTop[0] = tilde_black;
   FirstRowTop[1] = One_black;
   FirstRowTop[2] = Two_black;
   FirstRowTop[3] = Three_black;
-  FirstRowTop[4] = Four_black;
-  FirstRowTop[5] = Five_black;
-  FirstRowTop[6] = Six_black;
-  FirstRowTop[7] = Seven_black;
-  FirstRowTop[8] = Eight_black;
-  FirstRowTop[9] = Nine_black;
-  FirstRowTop[10] = Zero_black;
-  FirstRowTop[11] = Dash_black;
-  FirstRowTop[12] = Equal_black;
+  FirstRowTop[4] = TopKeyboardBlack[0];
+  FirstRowTop[5] = TopKeyboardBlack[0];
+  FirstRowTop[6] = TopKeyboardBlack[0];
+  FirstRowTop[7] = TopKeyboardBlack[0];
+  FirstRowTop[8] = TopKeyboardBlack[0];
+  FirstRowTop[9] = TopKeyboardBlack[0];
+  FirstRowTop[10] = TopKeyboardBlack[0];
+  FirstRowTop[11] = TopKeyboardBlack[0];
+  FirstRowTop[12] = TopKeyboardBlack[0];
+  
 
   // Second Row on the top keyboard
   SecondRowTop[0] = Q_black;
@@ -292,6 +328,34 @@ void setup() {
   SecondRowTop[11] = RightBracket_black;
   SecondRowTop[12] = Backslash_black;
   
+  TopKeyboardBlack[13] = Q_black;
+  TopKeyboardBlack[14] = W_black;
+  TopKeyboardBlack[15] = E_black;
+  TopKeyboardBlack[16] = R_black;
+  TopKeyboardBlack[17] = T_black;
+  TopKeyboardBlack[18] = Y_black;
+  TopKeyboardBlack[19] = U_black;
+  TopKeyboardBlack[20] = I_black;
+  TopKeyboardBlack[21] = O_black;
+  TopKeyboardBlack[22] = P_black;
+  TopKeyboardBlack[23] = LeftBracket_black;
+  TopKeyboardBlack[24] = RightBracket_black;
+  TopKeyboardBlack[25] = Backslash_black;
+  
+  TopKeyboardYellow[13] = Q_yellow;
+  TopKeyboardYellow[14] = W_yellow;
+  TopKeyboardYellow[15] = E_yellow;
+  TopKeyboardYellow[16] = R_yellow;
+  TopKeyboardYellow[17] = T_yellow;
+  TopKeyboardYellow[18] = Y_yellow;
+  TopKeyboardYellow[19] = U_yellow;
+  TopKeyboardYellow[20] = I_yellow;
+  TopKeyboardYellow[21] = O_yellow;
+  TopKeyboardYellow[22] = P_yellow;
+  TopKeyboardYellow[23] = LeftBracket_yellow;
+  TopKeyboardYellow[24] = RightBracket_yellow;
+  TopKeyboardYellow[25] = Backslash_yellow;
+  
   // Third Row on the top keyboard
   ThirdRowTop[0] = A_black;
   ThirdRowTop[1] = S_black;
@@ -305,6 +369,32 @@ void setup() {
   ThirdRowTop[9] = Semicolon_black;
   ThirdRowTop[10] = Quotes_black;
   ThirdRowTop[11] = Return_black;
+  
+  TopKeyboardBlack[26] = A_black;
+  TopKeyboardBlack[27] = S_black;
+  TopKeyboardBlack[28] = D_black;
+  TopKeyboardBlack[29] = F_black;
+  TopKeyboardBlack[30] = G_black;
+  TopKeyboardBlack[31] = H_black;
+  TopKeyboardBlack[32] = J_black;
+  TopKeyboardBlack[33] = K_black;
+  TopKeyboardBlack[34] = L_black;
+  TopKeyboardBlack[35] = Semicolon_black;
+  TopKeyboardBlack[36] = Quotes_black;
+  TopKeyboardBlack[37] = Return_black;
+  
+  TopKeyboardYellow[26] = A_yellow;
+  TopKeyboardYellow[27] = S_yellow;
+  TopKeyboardYellow[28] = D_yellow;
+  TopKeyboardYellow[29] = F_yellow;
+  TopKeyboardYellow[30] = G_yellow;
+  TopKeyboardYellow[31] = H_yellow;
+  TopKeyboardYellow[32] = J_yellow;
+  TopKeyboardYellow[33] = K_yellow;
+  TopKeyboardYellow[34] = L_yellow;
+  TopKeyboardYellow[35] = Semicolon_yellow;
+  TopKeyboardYellow[36] = Quotes_yellow;
+  TopKeyboardYellow[37] = Return_yellow;
 
   // Fourth Row on the top
   FourthRowTop[0] = Z_black;
@@ -318,6 +408,28 @@ void setup() {
   FourthRowTop[8] = Period_black;
   FourthRowTop[9] = Forwardslash_black;
   
+  TopKeyboardBlack[38] = Z_black;
+  TopKeyboardBlack[39] = X_black;
+  TopKeyboardBlack[40] = C_black;
+  TopKeyboardBlack[41] = V_black;
+  TopKeyboardBlack[42] = B_black;
+  TopKeyboardBlack[43] = N_black;
+  TopKeyboardBlack[44] = M_black;
+  TopKeyboardBlack[45] = Comma_black;
+  TopKeyboardBlack[46] = Period_black;
+  TopKeyboardBlack[47] = Forwardslash_black;
+  
+  TopKeyboardYellow[38] = Z_yellow;
+  TopKeyboardYellow[39] = X_yellow;
+  TopKeyboardYellow[40] = C_yellow;
+  TopKeyboardYellow[41] = V_yellow;
+  TopKeyboardYellow[42] = B_yellow;
+  TopKeyboardYellow[43] = N_yellow;
+  TopKeyboardYellow[44] = M_yellow;
+  TopKeyboardYellow[45] = Comma_yellow;
+  TopKeyboardYellow[46] = Period_yellow;
+  TopKeyboardYellow[47] = Forwardslash_yellow;
+  
   // Special Keys on the top
   SpecialKeysTop[0] = Shift_black;
   SpecialKeysTop[1] = Control_black;
@@ -326,6 +438,23 @@ void setup() {
   SpecialKeysTop[4] = Space_black;
   SpecialKeysTop[5] = Command_black;
   SpecialKeysTop[6] = Option_black;
+  
+  TopKeyboardBlack[48] = Shift_black;
+  TopKeyboardBlack[49] = Control_black;
+  TopKeyboardBlack[50] = Option_black;
+  TopKeyboardBlack[51] = Command_black;
+  TopKeyboardBlack[52] = Space_black;
+  TopKeyboardBlack[53] = Command_black;
+  TopKeyboardBlack[54] = Option_black;
+  
+  TopKeyboardYellow[48] = Shift_yellow;
+  TopKeyboardYellow[49] = Control_yellow;
+  TopKeyboardYellow[50] = Option_yellow;
+  TopKeyboardYellow[51] = Command_yellow;
+  TopKeyboardYellow[52] = Space_yellow;
+  TopKeyboardYellow[53] = Command_yellow;
+  TopKeyboardYellow[54] = Option_yellow;
+  
   
    // Load rows into the display Arrays
   FirstRowBottom[0] = tilde_black;
@@ -392,6 +521,8 @@ void setup() {
   SpecialKeysBottom[5] = Command_black;
   SpecialKeysBottom[6] = Option_black;
 
+  // Initialize Display Keyboard to the black keyboard
+  DisplayKeyboard = TopKeyboardBlack;
 }
 
 //Customizes Key Mode Dropdown
@@ -415,65 +546,65 @@ void draw() {
   noStroke();
   rect(0,461,1300,330);
   // (imageVar, x coord, y coord, width, height)
-  image(FirstRowTop[0], 320, 92, 39,39);
-  image(FirstRowTop[1], 366, 92, 39,39);
-  image(FirstRowTop[2], 412, 92, 39,39);
-  image(FirstRowTop[3], 458, 92, 39,39);
-  image(FirstRowTop[4], 504, 92, 39,39);
-  image(FirstRowTop[5], 550, 92, 39,39);
-  image(FirstRowTop[6], 596, 92, 39,39);
-  image(FirstRowTop[7], 642, 92, 39,39);
-  image(FirstRowTop[8], 688, 92, 39,39);
-  image(FirstRowTop[9], 734, 92, 39,39);
-  image(FirstRowTop[10], 780, 92, 39,39);
-  image(FirstRowTop[11], 826, 92, 39,39);
-  image(FirstRowTop[12], 872, 92, 39,39);
+  image(DisplayKeyboard[0], 320, 92, 39,39);
+  image(DisplayKeyboard[1], 366, 92, 39,39);
+  image(DisplayKeyboard[2], 412, 92, 39,39);
+  image(DisplayKeyboard[3], 458, 92, 39,39);
+  image(DisplayKeyboard[4], 504, 92, 39,39);
+  image(DisplayKeyboard[5], 550, 92, 39,39);
+  image(DisplayKeyboard[6], 596, 92, 39,39);
+  image(DisplayKeyboard[7], 642, 92, 39,39);
+  image(DisplayKeyboard[8], 688, 92, 39,39);
+  image(DisplayKeyboard[9], 734, 92, 39,39);
+  image(DisplayKeyboard[10], 780, 92, 39,39);
+  image(DisplayKeyboard[11], 826, 92, 39,39);
+  image(DisplayKeyboard[12], 872, 92, 39,39);
   
-  image(SecondRowTop[0], 390, 139, 39, 39);
-  image(SecondRowTop[1], 436, 139, 39, 39);
-  image(SecondRowTop[2], 482, 139, 39, 39);
-  image(SecondRowTop[3], 528, 139, 39, 39);
-  image(SecondRowTop[4], 574, 139, 39, 39);
-  image(SecondRowTop[5], 620, 139, 39, 39);
-  image(SecondRowTop[6], 666, 139, 39, 39);
-  image(SecondRowTop[7], 712, 139, 39, 39);
-  image(SecondRowTop[8], 758, 139, 39, 39);
-  image(SecondRowTop[9], 804, 139, 39, 39);
-  image(SecondRowTop[10], 850, 139, 39, 39);
-  image(SecondRowTop[11], 896, 139, 39, 39);
-  image(SecondRowTop[12], 942, 139, 39, 39);
+  image(DisplayKeyboard[13], 390, 139, 39, 39);
+  image(DisplayKeyboard[14], 436, 139, 39, 39);
+  image(DisplayKeyboard[15], 482, 139, 39, 39);
+  image(DisplayKeyboard[16], 528, 139, 39, 39);
+  image(DisplayKeyboard[17], 574, 139, 39, 39);
+  image(DisplayKeyboard[18], 620, 139, 39, 39);
+  image(DisplayKeyboard[19], 666, 139, 39, 39);
+  image(DisplayKeyboard[20], 712, 139, 39, 39);
+  image(DisplayKeyboard[21], 758, 139, 39, 39);
+  image(DisplayKeyboard[22], 804, 139, 39, 39);
+  image(DisplayKeyboard[23], 850, 139, 39, 39);
+  image(DisplayKeyboard[24], 896, 139, 39, 39);
+  image(DisplayKeyboard[25], 942, 139, 39, 39);
   
-  image(ThirdRowTop[0], 412, 185, 39, 39);
-  image(ThirdRowTop[1], 458, 185, 39, 39);
-  image(ThirdRowTop[2], 504, 185, 39, 39);
-  image(ThirdRowTop[3], 550, 185, 39, 39);
-  image(ThirdRowTop[4], 596, 185, 39, 39);
-  image(ThirdRowTop[5], 642, 185, 39, 39);
-  image(ThirdRowTop[6], 688, 185, 39, 39);
-  image(ThirdRowTop[7], 734, 185, 39, 39);
-  image(ThirdRowTop[8], 780, 185, 39, 39);
-  image(ThirdRowTop[9], 826, 185, 39, 39);
-  image(ThirdRowTop[10], 872, 185, 39, 39);
-  image(ThirdRowTop[11], 919, 185, 66, 39);
+  image(DisplayKeyboard[26], 412, 185, 39, 39);
+  image(DisplayKeyboard[27], 458, 185, 39, 39);
+  image(DisplayKeyboard[28], 504, 185, 39, 39);
+  image(DisplayKeyboard[29], 550, 185, 39, 39);
+  image(DisplayKeyboard[30], 596, 185, 39, 39);
+  image(DisplayKeyboard[31], 642, 185, 39, 39);
+  image(DisplayKeyboard[32], 688, 185, 39, 39);
+  image(DisplayKeyboard[33], 734, 185, 39, 39);
+  image(DisplayKeyboard[34], 780, 185, 39, 39);
+  image(DisplayKeyboard[35], 826, 185, 39, 39);
+  image(DisplayKeyboard[36], 872, 185, 39, 39);
+  image(DisplayKeyboard[37], 919, 185, 66, 39);
   
-  image(FourthRowTop[0], 436, 231, 39, 39);
-  image(FourthRowTop[1], 482, 231, 39, 39);
-  image(FourthRowTop[2], 528, 231, 39, 39);
-  image(FourthRowTop[3], 574, 231, 39, 39);
-  image(FourthRowTop[4], 620, 231, 39, 39);
-  image(FourthRowTop[5], 666, 231, 39, 39);
-  image(FourthRowTop[6], 712, 231, 39, 39);
-  image(FourthRowTop[7], 758, 231, 39, 39);
-  image(FourthRowTop[8], 804, 231, 39, 39);
-  image(FourthRowTop[9], 850, 231, 39, 39);
+  image(DisplayKeyboard[38], 436, 231, 39, 39);
+  image(DisplayKeyboard[39], 482, 231, 39, 39);
+  image(DisplayKeyboard[40], 528, 231, 39, 39);
+  image(DisplayKeyboard[41], 574, 231, 39, 39);
+  image(DisplayKeyboard[42], 620, 231, 39, 39);
+  image(DisplayKeyboard[43], 666, 231, 39, 39);
+  image(DisplayKeyboard[44], 712, 231, 39, 39);
+  image(DisplayKeyboard[45], 758, 231, 39, 39);
+  image(DisplayKeyboard[46], 804, 231, 39, 39);
+  image(DisplayKeyboard[47], 850, 231, 39, 39);
   
-  image(SpecialKeysTop[0], 350, 278, 78, 39);
-  image(SpecialKeysTop[1], 368, 338, 44, 39);
-  image(SpecialKeysTop[2], 423, 338, 44, 39);
-  image(SpecialKeysTop[3], 477, 338, 56, 39);
-  image(SpecialKeysTop[4], 543, 338, 156, 39);
-  image(SpecialKeysTop[5], 776, 338, 56, 39);
-  image(SpecialKeysTop[6], 842, 338, 44, 39);
+  image(DisplayKeyboard[48], 350, 278, 78, 39);
+  image(DisplayKeyboard[49], 368, 338, 44, 39);
+  image(DisplayKeyboard[50], 423, 338, 44, 39);
+  image(DisplayKeyboard[51], 477, 338, 56, 39);
+  image(DisplayKeyboard[52], 543, 338, 156, 39);
+  image(DisplayKeyboard[53], 776, 338, 56, 39);
+  image(DisplayKeyboard[54], 842, 338, 44, 39);
   
   // Bottom Keyboard
   image(FirstRowBottom[0], 320, 480, 39,39);
@@ -551,56 +682,56 @@ void mousePressed() {
   // If statements to check what key is picked on the top keyboard
   if(pmouseX > 320 && pmouseX < 366 && pmouseY > 92 && pmouseY < 139){
     // Load the picked yellow key
-    FirstRowTop[0] = tilde_yellow;
-    picked = tilde_black;
+    DisplayKeyboard[0] = TopKeyboardYellow[0];
+    pickedIndex = 0;
   }
   if(pmouseX > 366 && pmouseX < 412 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[1] = One_yellow;
-    picked = One_black;
+    DisplayKeyboard[1] = TopKeyboardYellow[1];
+    pickedIndex = 1;
   }
   if(pmouseX > 412 && pmouseX < 458 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[2] = Two_yellow;
-    picked = Two_black;
+    DisplayKeyboard[2] = TopKeyboardYellow[2];
+    pickedIndex = 2;
   }
   if(pmouseX > 458 && pmouseX < 504 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[3] = Three_yellow;
-    picked = Two_black;
+    DisplayKeyboard[3] = TopKeyboardYellow[3];
+    pickedIndex = 3;
   }
   if(pmouseX > 504 && pmouseX < 550 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[4] = Four_yellow;    
-    picked = Two_black;
+    DisplayKeyboard[4] = TopKeyboardYellow[4];    
+    pickedIndex = 4;
   }
   if(pmouseX > 550 && pmouseX < 596 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[5] = Five_yellow;
-    picked = Five_black;
+    DisplayKeyboard[5] = TopKeyboardYellow[5];
+    pickedIndex = 5;
   }
   if(pmouseX > 596 && pmouseX < 642 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[6] = Six_yellow;
-    picked = Six_black;
+    DisplayKeyboard[6] = TopKeyboardYellow[6];
+    pickedIndex = 6;
   }
   if(pmouseX > 642 && pmouseX < 688 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[7] = Seven_yellow;
-    picked = Seven_black;
+    DisplayKeyboard[7] = TopKeyboardYellow[7];
+    pickedIndex = 7;
   }
   if(pmouseX > 688 && pmouseX < 734 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[8] = Eight_yellow;
-    picked = Eight_black;
+    DisplayKeyboard[8] = TopKeyboardYellow[8];
+    pickedIndex = 8;
   }
   if(pmouseX > 734 && pmouseX < 780 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[9] = Nine_yellow;
-    picked = Nine_black;
+    DisplayKeyboard[9] = TopKeyboardYellow[9];
+    pickedIndex = 9;
   }
   if(pmouseX > 780 && pmouseX < 826 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[10] = Zero_yellow;
-    picked = Zero_black;
+    DisplayKeyboard[10] = TopKeyboardYellow[10];
+    pickedIndex = 10;
   }
   if(pmouseX > 826 && pmouseX < 872 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[11] = Dash_yellow;
-    picked = Dash_black;
+    DisplayKeyboard[11] = TopKeyboardYellow[11];
+    pickedIndex = 11;
   }
   if(pmouseX > 872 && pmouseX < 918 && pmouseY > 92 && pmouseY < 139){
-    FirstRowTop[12] = Equal_yellow;
-    picked = Equal_black;
+    DisplayKeyboard[12] = TopKeyboardYellow[12];
+    pickedIndex = 12;
   }
   // Second row of keys
   if(pmouseX > 390 && pmouseX < 436 && pmouseY > 139 && pmouseY < 178){
@@ -747,7 +878,7 @@ void mousePressed() {
     picked = Forwardslash_black;
   }
   
-  // Custom yellow keys
+  // Special Keys on the top
   if(pmouseX > 350 && pmouseX < 428 && pmouseY > 278 && pmouseY < 338){
     SpecialKeysTop[0] = Shift_yellow;
     picked = Shift_black;
@@ -777,16 +908,14 @@ void mousePressed() {
     picked = Option_black;
   }
 
-
-
-
   // Bottom Key Remap
   if(pmouseX > 320 && pmouseX < 366 && pmouseY > 480 && pmouseY < 527){
-    // Load the picked yellow key
-    FirstRowBottom[0] = picked;
+    // Use the PickedIndex to remap
+    print(pickedIndex);
+    FirstRowBottom[0] = TopKeyboardBlack[pickedIndex];
   }
   if(pmouseX > 366 && pmouseX < 412 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[1] = picked;
+    picked = FirstRowBottom[1];
   }
   if(pmouseX > 412 && pmouseX < 458 && pmouseY > 480 && pmouseY < 527){
     FirstRowBottom[2] = picked;
