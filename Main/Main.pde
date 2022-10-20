@@ -152,6 +152,8 @@ PImage Z_yellow;
 //Misc
 PImage Info_icon;
 PImage Confirm_Key;
+int msecMap;
+int msecTest;
 
 void setup() {
   size(1300, 780);
@@ -618,11 +620,16 @@ void draw() {
   if(mapMode){
     //Keymap mode window
     drawUnselectedBottom();
+    msecMap = millis();
+    
   }
   else if (testerMode){
     //Key tester mode window
+    msecTest = millis();
   }
     drawPopup();
+    println("Time in ms for Mapping:" + msecMap);
+    println("Time in ms for Testing:" + msecTest);
 }
 void checkMode(){
   int active = int(modeDropdown.getValue());
