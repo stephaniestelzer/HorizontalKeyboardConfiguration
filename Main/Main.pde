@@ -1,9 +1,10 @@
-//Global Variables //<>//
+//ControlP5 Items //<>// //<>//
 import controlP5.*;
-//ControlP5 Items
 ControlP5 cp5;
+ControlP5 controlFont;
 DropdownList modeDropdown;
 boolean mapMode = true;
+boolean infoPopup = false;
 boolean testerMode = false;
 
 //UI Colors
@@ -13,6 +14,9 @@ color greyBlue50 = color(72, 80, 88);
 color greyBlue25 = color(112,117,123);
 color yellow = color(255, 175, 95);
 color white = color(255,255,255);
+
+//UI Font
+PFont font;
 
 // Image Arrays for displaying the top keyboard
 PImage[] FirstRowTop = new PImage[13];
@@ -145,16 +149,20 @@ PImage X_yellow;
 PImage Y_yellow;
 PImage Z_yellow;
 
+//Misc
+PImage Info_icon;
+PImage Confirm_Key;
 
 void setup() {
   size(1300, 780);
   pixelDensity(displayDensity());
-  
+  //font = createFont("Barlow.ttf",13,true);
   //ControlP5 Items
   cp5 = new ControlP5(this);
+  //ControlFont controlFont = new ControlFont(font,13);
   modeDropdown = cp5.addDropdownList("Mode: Key Map").setPosition(20, 20).setOpen(false);
-  customize(modeDropdown);
-  
+                  //.setFont(controlFont).setOpen(false);
+  customize(modeDropdown); 
   pickedIndex = 0;
   //Hardcoded Unselected Keys
   tilde_black = loadImage("Tilde_Key_Black.png");
@@ -264,6 +272,9 @@ void setup() {
   Command_yellow = loadImage("Command_Key_Yellow.png");
   Space_yellow = loadImage("Space_Key_Yellow.png");
   Return_yellow = loadImage("Return_Key_Yellow.png");
+  
+  //Info_icon = loadImage("info_icon.png");
+  //Confirm_Key = loadImage("Confirm_Key.png");
   
   picked = new PImage();
   
@@ -522,7 +533,61 @@ void setup() {
   SpecialKeysBottom[6] = Option_black;
 
   // Initialize Display Keyboard to the black keyboard
-  DisplayKeyboard = TopKeyboardBlack;
+  DisplayKeyboard[0] = tilde_black;
+  DisplayKeyboard[1] = One_black;
+  DisplayKeyboard[2] = Two_black;
+  DisplayKeyboard[3] = Three_black;
+  DisplayKeyboard[4] = Four_black;
+  DisplayKeyboard[5] = Five_black;
+  DisplayKeyboard[6] = Six_black;
+  DisplayKeyboard[7] = Seven_black;
+  DisplayKeyboard[8] = Eight_black;
+  DisplayKeyboard[9] = Nine_black;
+  DisplayKeyboard[10] = Zero_black;
+  DisplayKeyboard[11] = Dash_black;
+  DisplayKeyboard[12] = Equal_black;
+  DisplayKeyboard[13] = Q_black;
+  DisplayKeyboard[14] = W_black;
+  DisplayKeyboard[15] = E_black;
+  DisplayKeyboard[16] = R_black;
+  DisplayKeyboard[17] = T_black;
+  DisplayKeyboard[18] = Y_black;
+  DisplayKeyboard[19] = U_black;
+  DisplayKeyboard[20] = I_black;
+  DisplayKeyboard[21] = O_black;
+  DisplayKeyboard[22] = P_black;
+  DisplayKeyboard[23] = LeftBracket_black;
+  DisplayKeyboard[24] = RightBracket_black;
+  DisplayKeyboard[25] = Backslash_black;
+  DisplayKeyboard[26] = A_black;
+  DisplayKeyboard[27] = S_black;
+  DisplayKeyboard[28] = D_black;
+  DisplayKeyboard[29] = F_black;
+  DisplayKeyboard[30] = G_black;
+  DisplayKeyboard[31] = H_black;
+  DisplayKeyboard[32] = J_black;
+  DisplayKeyboard[33] = K_black;
+  DisplayKeyboard[34] = L_black;
+  DisplayKeyboard[35] = Semicolon_black;
+  DisplayKeyboard[36] = Quotes_black;
+  DisplayKeyboard[37] = Return_black;
+  DisplayKeyboard[38] = Z_black;
+  DisplayKeyboard[39] = X_black;
+  DisplayKeyboard[40] = C_black;
+  DisplayKeyboard[41] = V_black;
+  DisplayKeyboard[42] = B_black;
+  DisplayKeyboard[43] = N_black;
+  DisplayKeyboard[44] = M_black;
+  DisplayKeyboard[45] = Comma_black;
+  DisplayKeyboard[46] = Period_black;
+  DisplayKeyboard[47] = Forwardslash_black;
+  DisplayKeyboard[48] = Shift_black;
+  DisplayKeyboard[49] = Control_black;
+  DisplayKeyboard[50] = Option_black;
+  DisplayKeyboard[51] = Command_black;
+  DisplayKeyboard[52] = Space_black;
+  DisplayKeyboard[53] = Command_black;
+  DisplayKeyboard[54] = Option_black;
 }
 
 //Customizes Key Mode Dropdown
@@ -544,7 +609,47 @@ void draw() {
   background(greyBlue25);
   fill(greyBlue50);
   noStroke();
+  //textFont(font);
   rect(0,461,1300,330);
+  //image(Info_icon, 1241, 20, 35,35);
+  checkMode();
+  rect(0,461,1300,330);
+  drawUnselectedTop();
+  if(mapMode){
+    //Keymap mode window
+    drawUnselectedBottom();
+  }
+  else if (testerMode){
+    //Key tester mode window
+  }
+    drawPopup();
+}
+void checkMode(){
+  int active = int(modeDropdown.getValue());
+  if(active == 0){
+    mapMode = true;
+    testerMode = false;
+  }
+  else if(active == 1){
+    mapMode = false;
+    testerMode = true;
+  }
+}
+void drawPopup(){
+  if(infoPopup){
+  pushMatrix();
+  fill(greyBlue50);
+  rect(313, 90, 670, 278);
+  textAlign(CENTER);
+  fill(white);
+  textSize(20);
+  text("How to use:\nClick on any key in the top palette that you would like to change.\nThen, select your replacement key in the bottom palette. The new key\nwill be automatically saved and ready for use!",
+       640, 175);
+  image(Confirm_Key, 882, 311, 78, 36);
+  popMatrix();
+  }
+}
+void drawUnselectedTop(){
   // (imageVar, x coord, y coord, width, height)
   image(DisplayKeyboard[0], 320, 92, 39,39);
   image(DisplayKeyboard[1], 366, 92, 39,39);
@@ -606,6 +711,8 @@ void draw() {
   image(DisplayKeyboard[53], 776, 338, 56, 39);
   image(DisplayKeyboard[54], 842, 338, 44, 39);
   
+}
+void drawUnselectedBottom(){
   // Bottom Keyboard
   image(FirstRowBottom[0], 320, 480, 39,39);
   image(FirstRowBottom[1], 366, 480, 39,39);
@@ -666,424 +773,868 @@ void draw() {
   image(SpecialKeysBottom[4], 543, 715, 156, 39);
   image(SpecialKeysBottom[5], 776, 715, 56, 39);
   image(SpecialKeysBottom[6], 842, 715, 44, 39);
-  
-  if(mapMode){
-    //Keymap mode window
-  }
-  else if (testerMode){
-    //Key tester mode window
-  }
 }
 
 void mousePressed() {
   if (!modeDropdown.isMouseOver()) {    
     modeDropdown.close();
   }
+  if(pmouseX > 1241 && pmouseX < 1276 && pmouseY > 20 && pmouseY < 55){
+    if(!infoPopup){
+      infoPopup = true;
+    }
+  }
+  if(infoPopup){
+    if(pmouseX > 882 && pmouseX < 960 && pmouseY > 311 && pmouseY < 347){
+      infoPopup = false;
+    }
+  }
   // If statements to check what key is picked on the top keyboard
-  if(pmouseX > 320 && pmouseX < 366 && pmouseY > 92 && pmouseY < 139){
+  if(mapMode){
+    // If statements to check what key is picked on the top keyboard
+    if(pmouseX > 320 && pmouseX < 366 && pmouseY > 92 && pmouseY < 139){
     // Load the picked yellow key
     DisplayKeyboard[0] = TopKeyboardYellow[0];
     pickedIndex = 0;
-  }
-  if(pmouseX > 366 && pmouseX < 412 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 366 && pmouseX < 412 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[1] = TopKeyboardYellow[1];
     pickedIndex = 1;
-  }
-  if(pmouseX > 412 && pmouseX < 458 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 412 && pmouseX < 458 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[2] = TopKeyboardYellow[2];
     pickedIndex = 2;
-  }
-  if(pmouseX > 458 && pmouseX < 504 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 458 && pmouseX < 504 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[3] = TopKeyboardYellow[3];
     pickedIndex = 3;
-  }
-  if(pmouseX > 504 && pmouseX < 550 && pmouseY > 92 && pmouseY < 139){
-    DisplayKeyboard[4] = TopKeyboardYellow[4];    
+    }
+    if(pmouseX > 504 && pmouseX < 550 && pmouseY > 92 && pmouseY < 139){
+    DisplayKeyboard[4] = TopKeyboardYellow[4];
     pickedIndex = 4;
-  }
-  if(pmouseX > 550 && pmouseX < 596 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 550 && pmouseX < 596 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[5] = TopKeyboardYellow[5];
     pickedIndex = 5;
-  }
-  if(pmouseX > 596 && pmouseX < 642 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 596 && pmouseX < 642 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[6] = TopKeyboardYellow[6];
     pickedIndex = 6;
-  }
-  if(pmouseX > 642 && pmouseX < 688 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 642 && pmouseX < 688 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[7] = TopKeyboardYellow[7];
     pickedIndex = 7;
-  }
-  if(pmouseX > 688 && pmouseX < 734 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 688 && pmouseX < 734 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[8] = TopKeyboardYellow[8];
     pickedIndex = 8;
-  }
-  if(pmouseX > 734 && pmouseX < 780 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 734 && pmouseX < 780 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[9] = TopKeyboardYellow[9];
     pickedIndex = 9;
-  }
-  if(pmouseX > 780 && pmouseX < 826 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 780 && pmouseX < 826 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[10] = TopKeyboardYellow[10];
     pickedIndex = 10;
-  }
-  if(pmouseX > 826 && pmouseX < 872 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 826 && pmouseX < 872 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[11] = TopKeyboardYellow[11];
     pickedIndex = 11;
-  }
-  if(pmouseX > 872 && pmouseX < 918 && pmouseY > 92 && pmouseY < 139){
+    }
+    if(pmouseX > 872 && pmouseX < 918 && pmouseY > 92 && pmouseY < 139){
     DisplayKeyboard[12] = TopKeyboardYellow[12];
     pickedIndex = 12;
-  }
-  // Second row of keys
-  if(pmouseX > 390 && pmouseX < 436 && pmouseY > 139 && pmouseY < 178){
+    }
+    // Second row of keys
+    if(pmouseX > 390 && pmouseX < 436 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[0] = Q_yellow;
     picked = Q_black;
-  }
-  if(pmouseX > 436 && pmouseX < 482 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 436 && pmouseX < 482 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[1] = W_yellow;
     picked = W_black;
-  }
-  if(pmouseX > 482 && pmouseX < 528 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 482 && pmouseX < 528 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[2] = E_yellow;
     picked = E_black;
-  }
-  if(pmouseX > 528 && pmouseX < 574 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 528 && pmouseX < 574 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[3] = R_yellow;
     picked = R_black;
-  }
-  if(pmouseX > 574 && pmouseX < 620 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 574 && pmouseX < 620 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[4] = T_yellow;
     picked = T_black;
-  }
-  if(pmouseX > 620 && pmouseX < 666 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 620 && pmouseX < 666 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[5] = Y_yellow;
     picked = Y_black;
-  }
-  if(pmouseX > 666 && pmouseX < 712 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 666 && pmouseX < 712 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[6] = U_yellow;
     picked = U_black;
-  }
-  if(pmouseX > 712 && pmouseX < 758 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 712 && pmouseX < 758 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[7] = I_yellow;
     picked = I_black;
-  }
-  if(pmouseX > 758 && pmouseX < 804 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 758 && pmouseX < 804 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[8] = O_yellow;
     picked = O_black;
-  }
-  if(pmouseX > 804 && pmouseX < 850 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 804 && pmouseX < 850 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[9] = P_yellow;
     picked = P_black;
-  }
-  if(pmouseX > 850 && pmouseX < 896 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 850 && pmouseX < 896 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[10] = LeftBracket_yellow;
     picked = LeftBracket_black;
-  }
-  if(pmouseX > 896 && pmouseX < 942 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 896 && pmouseX < 942 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[11] = RightBracket_yellow;
     picked = RightBracket_black;
-  }
-  if(pmouseX > 942 && pmouseX < 981 && pmouseY > 139 && pmouseY < 178){
+    }
+    if(pmouseX > 942 && pmouseX < 981 && pmouseY > 139 && pmouseY < 178){
     SecondRowTop[12] = Backslash_yellow;
     picked = Backslash_black;
-  }
-  // Third row of keys
-  if(pmouseX > 412 && pmouseX < 458 && pmouseY > 185 && pmouseY < 231){
+    }
+    // Third row of keys
+    if(pmouseX > 412 && pmouseX < 458 && pmouseY > 185 && pmouseY < 231){
     print("accessed");
     ThirdRowTop[0] = A_yellow;
     picked = A_black;
-  }
-  if(pmouseX > 458 && pmouseX < 504 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 458 && pmouseX < 504 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[1] = S_yellow;
     picked = S_black;
-  }
-  if(pmouseX > 504 && pmouseX < 550 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 504 && pmouseX < 550 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[2] = D_yellow;
     picked = D_black;
-  }
-  if(pmouseX > 550 && pmouseX < 596 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 550 && pmouseX < 596 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[3] = F_yellow;
     picked = F_black;
-  }
-  if(pmouseX > 596 && pmouseX < 642 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 596 && pmouseX < 642 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[4] = G_yellow;
     picked = G_black;
-  }
-  if(pmouseX > 642 && pmouseX < 688 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 642 && pmouseX < 688 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[5] = H_yellow;
     picked = H_black;
-  }
-  if(pmouseX > 688 && pmouseX < 734 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 688 && pmouseX < 734 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[6] = J_yellow;
     picked = J_black;
-  }
-  if(pmouseX > 734 && pmouseX < 780 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 734 && pmouseX < 780 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[7] = K_yellow;
     picked = K_black;
-  }
-  if(pmouseX > 780 && pmouseX < 826 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 780 && pmouseX < 826 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[8] = L_yellow;
     picked = L_black;
-  }
-  if(pmouseX > 826 && pmouseX < 872 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 826 && pmouseX < 872 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[9] = Semicolon_yellow;
     picked = Semicolon_black;
-  }
-  if(pmouseX > 872 && pmouseX < 919 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 872 && pmouseX < 919 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[10] = Quotes_yellow;
     picked = Quotes_black;
-  }
-  if(pmouseX > 919 && pmouseX < 985 && pmouseY > 185 && pmouseY < 231){
+    }
+    if(pmouseX > 919 && pmouseX < 985 && pmouseY > 185 && pmouseY < 231){
     ThirdRowTop[11] = Return_yellow;
     picked = Return_black;
-  }
-  // Fourth row of keys
-  if(pmouseX > 436 && pmouseX < 482 && pmouseY > 231 && pmouseY < 270){
+    }
+    // Fourth row of keys
+    if(pmouseX > 436 && pmouseX < 482 && pmouseY > 231 && pmouseY < 270){
     FourthRowTop[0] = Z_yellow;
     picked = Z_black;
-  }
-  if(pmouseX > 482 && pmouseX < 528 && pmouseY > 231 && pmouseY < 270){
+    }
+    if(pmouseX > 482 && pmouseX < 528 && pmouseY > 231 && pmouseY < 270){
     FourthRowTop[1] = X_yellow;
     picked = X_black;
-  }
-  if(pmouseX > 528 && pmouseX < 574 && pmouseY > 231 && pmouseY < 270){
+    }
+    if(pmouseX > 528 && pmouseX < 574 && pmouseY > 231 && pmouseY < 270){
     FourthRowTop[2] = C_yellow;
     picked = C_black;
-  }
-  if(pmouseX > 574 && pmouseX < 620 && pmouseY > 231 && pmouseY < 270){
+    }
+    if(pmouseX > 574 && pmouseX < 620 && pmouseY > 231 && pmouseY < 270){
     FourthRowTop[3] = V_yellow;
     picked = V_black;
-  }
-  if(pmouseX > 620 && pmouseX < 666 && pmouseY > 231 && pmouseY < 270){
+    }
+    if(pmouseX > 620 && pmouseX < 666 && pmouseY > 231 && pmouseY < 270){
     FourthRowTop[4] = B_yellow;
     picked = B_black;
-  }
-  if(pmouseX > 666 && pmouseX < 712 && pmouseY > 231 && pmouseY < 270){
+    }
+    if(pmouseX > 666 && pmouseX < 712 && pmouseY > 231 && pmouseY < 270){
     FourthRowTop[5] = N_yellow;
     picked = N_black;
-  }
-  if(pmouseX > 712 && pmouseX < 758 && pmouseY > 231 && pmouseY < 270){
+    }
+    if(pmouseX > 712 && pmouseX < 758 && pmouseY > 231 && pmouseY < 270){
     FourthRowTop[6] = M_yellow;
     picked = M_black;
-  }
-  if(pmouseX > 758 && pmouseX < 804 && pmouseY > 231 && pmouseY < 270){
+    }
+    if(pmouseX > 758 && pmouseX < 804 && pmouseY > 231 && pmouseY < 270){
     FourthRowTop[7] = Comma_yellow;
     picked = Comma_black;
-  }
-  if(pmouseX > 804 && pmouseX < 850 && pmouseY > 231 && pmouseY < 270){
+    }
+    if(pmouseX > 804 && pmouseX < 850 && pmouseY > 231 && pmouseY < 270){
     FourthRowTop[8] = Period_yellow;
     picked = Period_black;
-  }
-  if(pmouseX > 850 && pmouseX < 889 && pmouseY > 231 && pmouseY < 270){
+    }
+    if(pmouseX > 850 && pmouseX < 889 && pmouseY > 231 && pmouseY < 270){
     FourthRowTop[9] = Forwardslash_yellow;
     picked = Forwardslash_black;
-  }
-  
-  // Special Keys on the top
-  if(pmouseX > 350 && pmouseX < 428 && pmouseY > 278 && pmouseY < 338){
+    }
+    // Special Keys on the top
+    if(pmouseX > 350 && pmouseX < 428 && pmouseY > 278 && pmouseY < 338){
     SpecialKeysTop[0] = Shift_yellow;
     picked = Shift_black;
-  }
-  if(pmouseX > 368 && pmouseX < 412 && pmouseY > 338 && pmouseY < 377){
+    }
+    if(pmouseX > 368 && pmouseX < 412 && pmouseY > 338 && pmouseY < 377){
     SpecialKeysTop[1] = Control_yellow;
     picked = Control_black;
-  }
-  if(pmouseX > 423 && pmouseX < 467 && pmouseY > 338 && pmouseY < 377){
+    }
+    if(pmouseX > 423 && pmouseX < 467 && pmouseY > 338 && pmouseY < 377){
     SpecialKeysTop[2] = Option_yellow;
     picked = Option_black;
-  }
-  if(pmouseX > 477 && pmouseX < 533 && pmouseY > 338 && pmouseY < 377){
+    }
+    if(pmouseX > 477 && pmouseX < 533 && pmouseY > 338 && pmouseY < 377){
     SpecialKeysTop[3] = Command_yellow;
     picked = Command_black;
-  }
-  if(pmouseX > 543 && pmouseX < 699 && pmouseY > 338 && pmouseY < 377){
+    }
+    if(pmouseX > 543 && pmouseX < 699 && pmouseY > 338 && pmouseY < 377){
     SpecialKeysTop[4] = Space_yellow;
     picked = Space_black;
-  }
-  if(pmouseX > 776 && pmouseX < 832 && pmouseY > 338 && pmouseY < 377){
+    }
+    if(pmouseX > 776 && pmouseX < 832 && pmouseY > 338 && pmouseY < 377){
     SpecialKeysTop[5] = Command_yellow;
     picked = Command_black;
-  }
-  if(pmouseX > 842 && pmouseX < 886 && pmouseY > 338 && pmouseY < 377){
+    }
+    if(pmouseX > 842 && pmouseX < 886 && pmouseY > 338 && pmouseY < 377){
     SpecialKeysTop[6] = Option_yellow;
     picked = Option_black;
-  }
-
-  // Bottom Key Remap
-  if(pmouseX > 320 && pmouseX < 366 && pmouseY > 480 && pmouseY < 527){
+    }
+    // Bottom Key Remap
+    if(pmouseX > 320 && pmouseX < 366 && pmouseY > 480 && pmouseY < 527){
     // Use the PickedIndex to remap
-    print(pickedIndex);
-    FirstRowBottom[0] = TopKeyboardBlack[pickedIndex];
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[0];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[0];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[0];
+    println("accessed");
+    }
+    if(pmouseX > 366 && pmouseX < 412 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[1];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[1];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[1];
+    }
+    if(pmouseX > 412 && pmouseX < 458 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[2];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[2];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[2];
+    }
+    if(pmouseX > 458 && pmouseX < 504 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[3];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[3];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[3];
+    }
+    if(pmouseX > 504 && pmouseX < 550 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[4];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[4];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[4];
+    }
+    if(pmouseX > 550 && pmouseX < 596 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[5];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[5];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[5];
+    }
+    if(pmouseX > 596 && pmouseX < 642 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[6];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[6];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[6];
+    }
+    if(pmouseX > 642 && pmouseX < 688 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[7];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[7];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[7];
+    }
+    if(pmouseX > 688 && pmouseX < 734 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[8];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[8];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[8];
+    }
+    if(pmouseX > 734 && pmouseX < 780 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[9];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[9];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[9];
+    }
+    if(pmouseX > 780 && pmouseX < 826 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[10];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[10];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[10];
+    }
+    if(pmouseX > 826 && pmouseX < 872 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[11];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[11];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[11];
+    }
+    if(pmouseX > 872 && pmouseX < 918 && pmouseY > 480 && pmouseY < 527){
+    DisplayKeyboard[pickedIndex] = FirstRowBottom[12];
+    TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[12];
+    TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[12];
+    }
+    // Second row of keys
+    if(pmouseX > 390 && pmouseX < 436 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[0];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[13];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[13];
+    }
+    if(pmouseX > 436 && pmouseX < 482 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[1];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[14];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[14];
+    }
+    if(pmouseX > 482 && pmouseX < 528 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[2];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[15];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[15];
+    }
+    if(pmouseX > 528 && pmouseX < 574 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[3];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[16];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[16];
+    }
+    if(pmouseX > 574 && pmouseX < 620 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[4];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[17];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[17];
+    }
+    if(pmouseX > 620 && pmouseX < 666 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[5];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[18];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[18];
+    }
+    if(pmouseX > 666 && pmouseX < 712 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[6];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[19];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[19];
+    }
+    if(pmouseX > 712 && pmouseX < 758 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[7];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[20];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[20];
+    }
+    if(pmouseX > 758 && pmouseX < 804 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[8];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[21];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[21];
+    }
+    if(pmouseX > 804 && pmouseX < 850 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[9];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[22];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[22];    
+    }
+    if(pmouseX > 850 && pmouseX < 896 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[10];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[23];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[23];
+    }
+    if(pmouseX > 896 && pmouseX < 942 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[11];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[24];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[24];
+    }
+    if(pmouseX > 942 && pmouseX < 981 && pmouseY > 527 && pmouseY < 574){
+      DisplayKeyboard[pickedIndex] = SecondRowBottom[12];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[25];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[25];
+    }
+    // Third row of keys
+    if(pmouseX > 412 && pmouseX < 458 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[0];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[26];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[26];
+    }
+    if(pmouseX > 458 && pmouseX < 504 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[1];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[27];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[27];
+    }
+    if(pmouseX > 504 && pmouseX < 550 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[2];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[28];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[28];
+    }
+    if(pmouseX > 550 && pmouseX < 596 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[3];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[29];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[29];
+    }
+    if(pmouseX > 596 && pmouseX < 642 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[4];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[30];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[30];
+    }
+    if(pmouseX > 642 && pmouseX < 688 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[5];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[31];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[31];
+    }
+    if(pmouseX > 688 && pmouseX < 734 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[6];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[32];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[32];
+    }
+    if(pmouseX > 734 && pmouseX < 780 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[7];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[33];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[33];
+    }
+    if(pmouseX > 780 && pmouseX < 826 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[8];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[34];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[34];
+    }
+    if(pmouseX > 826 && pmouseX < 872 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[9];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[35];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[35];
+    }
+    if(pmouseX > 872 && pmouseX < 919 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[10];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[36];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[36];
+    }
+    if(pmouseX > 919 && pmouseX < 985 && pmouseY > 574 && pmouseY < 621){
+      DisplayKeyboard[pickedIndex] = ThirdRowBottom[11];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[37];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[37];
+    }
+    // Fourth row of keys
+    if(pmouseX > 436 && pmouseX < 482 && pmouseY > 621 && pmouseY < 660){
+      DisplayKeyboard[pickedIndex] = FourthRowBottom[0];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[38];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[38];
+    }
+    if(pmouseX > 482 && pmouseX < 528 && pmouseY > 621 && pmouseY < 660){
+      DisplayKeyboard[pickedIndex] = FourthRowBottom[1];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[39];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[39];
+    }
+    if(pmouseX > 528 && pmouseX < 574 && pmouseY > 621 && pmouseY < 660){
+      DisplayKeyboard[pickedIndex] = FourthRowBottom[2];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[40];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[40];
+    }
+    if(pmouseX > 574 && pmouseX < 620 && pmouseY > 621 && pmouseY < 660){
+      DisplayKeyboard[pickedIndex] = FourthRowBottom[3];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[41];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[41];
+    }
+    if(pmouseX > 620 && pmouseX < 666 && pmouseY > 621 && pmouseY < 660){
+      DisplayKeyboard[pickedIndex] = FourthRowBottom[4];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[42];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[42];
+    }
+    if(pmouseX > 666 && pmouseX < 712 && pmouseY > 621 && pmouseY < 660){
+      DisplayKeyboard[pickedIndex] = FourthRowBottom[5];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[43];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[43];
+    }
+    if(pmouseX > 712 && pmouseX < 758 && pmouseY > 621 && pmouseY < 660){
+      DisplayKeyboard[pickedIndex] = FourthRowBottom[6];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[44];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[44];
+    }
+    if(pmouseX > 758 && pmouseX < 804 && pmouseY > 621 && pmouseY < 660){
+      DisplayKeyboard[pickedIndex] = FourthRowBottom[7];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[45];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[45];
+    }
+    if(pmouseX > 804 && pmouseX < 850 && pmouseY > 621 && pmouseY < 660){
+      DisplayKeyboard[pickedIndex] = FourthRowBottom[8];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[46];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[46];
+    }
+    if(pmouseX > 850 && pmouseX < 889 && pmouseY > 621 && pmouseY < 660){
+      DisplayKeyboard[pickedIndex] = FourthRowBottom[9];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[47];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[47];
+    }
+    // Special Keys
+    if(pmouseX > 350 && pmouseX < 428 && pmouseY > 668 && pmouseY < 707){
+      DisplayKeyboard[pickedIndex] = SpecialKeysBottom[0];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[48];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[48];
+    }
+    if(pmouseX > 368 && pmouseX < 412 && pmouseY > 338 && pmouseY < 377){
+      println("accessed");
+      DisplayKeyboard[pickedIndex] = SpecialKeysBottom[1];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[49];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[49];
+    }
+    if(pmouseX > 423 && pmouseX < 467 && pmouseY > 338 && pmouseY < 377){
+      DisplayKeyboard[pickedIndex] = SpecialKeysBottom[2];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[50];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[50];
+    }
+    if(pmouseX > 477 && pmouseX < 533 && pmouseY > 338 && pmouseY < 377){
+      DisplayKeyboard[pickedIndex] = SpecialKeysBottom[3];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[51];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[51];
+    }
+    if(pmouseX > 543 && pmouseX < 699 && pmouseY > 338 && pmouseY < 377){
+      DisplayKeyboard[pickedIndex] = SpecialKeysBottom[4];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[52];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[52];
+    }
+    if(pmouseX > 776 && pmouseX < 832 && pmouseY > 338 && pmouseY < 377){
+      DisplayKeyboard[pickedIndex] = SpecialKeysBottom[5];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[53];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[53];
+    }
+    if(pmouseX > 842 && pmouseX < 886 && pmouseY > 338 && pmouseY < 377){
+      DisplayKeyboard[pickedIndex] = SpecialKeysBottom[6];
+      TopKeyboardBlack[pickedIndex] = TopKeyboardBlack[54];
+      TopKeyboardYellow[pickedIndex] = TopKeyboardYellow[54];
+    }
   }
-  if(pmouseX > 366 && pmouseX < 412 && pmouseY > 480 && pmouseY < 527){
-    picked = FirstRowBottom[1];
+}
+ //<>//
+void keyPressed(){
+  if(testerMode){
+    if(keyCode == 192){ //tilde
+      DisplayKeyboard[0] = TopKeyboardYellow[0];
+    }
+    else if(keyCode == 48){ //zero
+      DisplayKeyboard[10] = TopKeyboardYellow[10];
+    }
+    else if(keyCode == 49){ //one
+      DisplayKeyboard[1] = TopKeyboardYellow[1];
+    }
+    else if(keyCode == 50){ //two
+      DisplayKeyboard[2] = TopKeyboardYellow[2];
+    }
+    else if(keyCode == 51){ //three
+      DisplayKeyboard[3] = TopKeyboardYellow[3];
+    }
+    else if(keyCode == 52){ //four
+      DisplayKeyboard[4] = TopKeyboardYellow[4];
+    }
+    else if(keyCode == 53){ //five
+      DisplayKeyboard[5] = TopKeyboardYellow[5];
+    }
+    else if(keyCode == 54){ //six
+      DisplayKeyboard[6] = TopKeyboardYellow[6];
+    }
+    else if(keyCode == 55){ //seven
+      DisplayKeyboard[7] = TopKeyboardYellow[7];
+    }
+    else if(keyCode == 56){ //eight
+      DisplayKeyboard[8] = TopKeyboardYellow[8];
+    }
+    else if(keyCode == 57){ //nine
+      DisplayKeyboard[9] = TopKeyboardYellow[9];
+    }
+    else if(keyCode == 45){ //dash
+      DisplayKeyboard[11] = TopKeyboardYellow[11];
+    }
+    else if(keyCode == 61){ //Equal
+      DisplayKeyboard[12] = TopKeyboardYellow[12];
+    }
+    else if(keyCode == 81){ //Q
+      DisplayKeyboard[13] = TopKeyboardYellow[13];
+    }
+    else if(keyCode == 87){ //W
+      DisplayKeyboard[14] = TopKeyboardYellow[14];
+    }
+    else if(keyCode == 69){ //E
+      DisplayKeyboard[15] = TopKeyboardYellow[15];
+    }
+    else if(keyCode == 82){ //R
+      DisplayKeyboard[16] = TopKeyboardYellow[16];
+    }
+    else if(keyCode == 84){ //T
+      DisplayKeyboard[17] = TopKeyboardYellow[17];
+    }
+    else if(keyCode == 89){ //Y
+      DisplayKeyboard[18] = TopKeyboardYellow[18];
+    }
+    else if(keyCode == 85){ //U
+      DisplayKeyboard[19] = TopKeyboardYellow[19];
+    }
+    else if(keyCode == 73){ //I
+      DisplayKeyboard[20] = TopKeyboardYellow[20];
+    }
+    else if(keyCode == 79){ //O
+      DisplayKeyboard[21] = TopKeyboardYellow[21];
+    }
+    else if(keyCode == 80){ //P
+      DisplayKeyboard[22] = TopKeyboardYellow[22];
+    }
+    else if(keyCode == 91){ //[
+      DisplayKeyboard[23] = TopKeyboardYellow[23];
+    }
+    else if(keyCode == 93){ //]
+      DisplayKeyboard[24] = TopKeyboardYellow[24];
+    }
+    else if(keyCode == 92){ //\
+      DisplayKeyboard[25] = TopKeyboardYellow[25];
+    }
+    else if(keyCode == 65){ //A
+      DisplayKeyboard[26] = TopKeyboardYellow[26];
+    }
+    else if(keyCode == 83){ //S
+      DisplayKeyboard[27] = TopKeyboardYellow[27];
+    }
+    else if(keyCode == 68){ //D
+      DisplayKeyboard[28] = TopKeyboardYellow[28];
+    }
+    else if(keyCode == 70){ //F
+      DisplayKeyboard[29] = TopKeyboardYellow[29];
+    }
+    else if(keyCode == 71){ //G
+      DisplayKeyboard[30] = TopKeyboardYellow[30];
+    }
+    else if(keyCode == 72){ //H
+      DisplayKeyboard[31] = TopKeyboardYellow[31];
+    }
+    else if(keyCode == 74){ //J
+      DisplayKeyboard[32] = TopKeyboardYellow[32];
+    }
+    else if(keyCode == 75){ //K
+      DisplayKeyboard[33] = TopKeyboardYellow[33];
+    }
+    else if(keyCode == 76){ //L
+      DisplayKeyboard[34] = TopKeyboardYellow[34];
+    }
+    else if(keyCode == 59){ //;
+      DisplayKeyboard[35] = TopKeyboardYellow[35];
+    }
+    else if(keyCode == 222){ //'
+      DisplayKeyboard[36] = TopKeyboardYellow[36];
+    }
+    else if(keyCode == 10 || keyCode == RETURN || keyCode == ENTER ){ //Return
+      DisplayKeyboard[37] = TopKeyboardYellow[37];
+    }
+    else if(keyCode == 90){ //Z
+      DisplayKeyboard[38] = TopKeyboardYellow[38];
+    }
+    else if(keyCode == 88){ //X
+      DisplayKeyboard[39] = TopKeyboardYellow[39];
+    }
+    else if(keyCode == 67){ //C
+      DisplayKeyboard[40] = TopKeyboardYellow[40];
+    }
+    else if(keyCode == 86){ //V
+      DisplayKeyboard[41] = TopKeyboardYellow[41];
+    }
+    else if(keyCode == 66){ //B
+      DisplayKeyboard[42] = TopKeyboardYellow[42];
+    }
+    else if(keyCode == 78){ //N
+      DisplayKeyboard[43] = TopKeyboardYellow[43];
+    }
+    else if(keyCode == 77){ //M
+      DisplayKeyboard[44] = TopKeyboardYellow[44];
+    }
+    else if(keyCode == 44){ //,
+      DisplayKeyboard[45] = TopKeyboardYellow[45];
+    }
+    else if(keyCode == 46){ //.
+      DisplayKeyboard[46] = TopKeyboardYellow[4];
+    }
+    else if(keyCode == 47){ ///
+      DisplayKeyboard[47] = TopKeyboardYellow[47];
+    }
+    else if(keyCode == 16){ //Shift
+      DisplayKeyboard[48] = TopKeyboardYellow[48];
+    }
+    else if(keyCode == 17){ //Left Control
+      DisplayKeyboard[49] = TopKeyboardYellow[49];
+    }
+    else if(keyCode == 18){ //Option
+      DisplayKeyboard[50] = TopKeyboardYellow[50];
+      DisplayKeyboard[54] = TopKeyboardYellow[54];
+    }
+    else if(keyCode == 157){ //Left Command
+      DisplayKeyboard[51] = TopKeyboardYellow[51];
+      DisplayKeyboard[53] = TopKeyboardYellow[53];
+    }
+    else if(keyCode == 32){ //Space
+      DisplayKeyboard[52] = TopKeyboardYellow[52];
+    }
   }
-  if(pmouseX > 412 && pmouseX < 458 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[2] = picked;
-  }
-  if(pmouseX > 458 && pmouseX < 504 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[3] = picked;
-  }
-  if(pmouseX > 504 && pmouseX < 550 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[4] = picked;    
-  }
-  if(pmouseX > 550 && pmouseX < 596 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[5] = picked;
-  }
-  if(pmouseX > 596 && pmouseX < 642 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[6] = picked;
-  }
-  if(pmouseX > 642 && pmouseX < 688 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[7] = picked;
-  }
-  if(pmouseX > 688 && pmouseX < 734 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[8] = picked;
-  }
-  if(pmouseX > 734 && pmouseX < 780 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[9] = picked;
-  }
-  if(pmouseX > 780 && pmouseX < 826 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[10] = picked;
-  }
-  if(pmouseX > 826 && pmouseX < 872 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[11] = picked;
-  }
-  if(pmouseX > 872 && pmouseX < 918 && pmouseY > 480 && pmouseY < 527){
-    FirstRowBottom[12] = picked;
-  }
-  // Second row of keys
-  if(pmouseX > 390 && pmouseX < 436 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[0] = picked;
-  }
-  if(pmouseX > 436 && pmouseX < 482 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[1] = picked;
-  }
-  if(pmouseX > 482 && pmouseX < 528 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[2] = picked;
-  }
-  if(pmouseX > 528 && pmouseX < 574 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[3] = picked;
-  }
-  if(pmouseX > 574 && pmouseX < 620 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[4] = picked;
-  }
-  if(pmouseX > 620 && pmouseX < 666 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[5] = picked;
-  }
-  if(pmouseX > 666 && pmouseX < 712 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[6] = picked;
-  }
-  if(pmouseX > 712 && pmouseX < 758 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[7] = picked;
-  }
-  if(pmouseX > 758 && pmouseX < 804 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[8] = picked;
-  }
-  if(pmouseX > 804 && pmouseX < 850 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[9] = picked;
-  }
-  if(pmouseX > 850 && pmouseX < 896 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[10] = picked;
-  }
-  if(pmouseX > 896 && pmouseX < 942 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[11] = picked;
-  }
-  if(pmouseX > 942 && pmouseX < 981 && pmouseY > 527 && pmouseY < 574){
-    SecondRowBottom[12] = picked;
-  }
-  // Third row of keys
-  if(pmouseX > 412 && pmouseX < 458 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[0] = picked;
-  }
-  if(pmouseX > 458 && pmouseX < 504 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[1] = picked;
-  }
-  if(pmouseX > 504 && pmouseX < 550 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[2] = picked;
-  }
-  if(pmouseX > 550 && pmouseX < 596 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[3] = picked;
-  }
-  if(pmouseX > 596 && pmouseX < 642 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[4] = picked;
-  }
-  if(pmouseX > 642 && pmouseX < 688 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[5] = picked;
-  }
-  if(pmouseX > 688 && pmouseX < 734 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[6] = picked;
-  }
-  if(pmouseX > 734 && pmouseX < 780 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[7] = picked;
-  }
-  if(pmouseX > 780 && pmouseX < 826 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[8] = picked;
-  }
-  if(pmouseX > 826 && pmouseX < 872 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[9] = picked;
-  }
-  if(pmouseX > 872 && pmouseX < 919 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[10] = picked;
-  }
-  if(pmouseX > 919 && pmouseX < 985 && pmouseY > 574 && pmouseY < 621){
-    ThirdRowBottom[11] = picked;
-  }
-  // Fourth row of keys
-  if(pmouseX > 436 && pmouseX < 482 && pmouseY > 621 && pmouseY < 660){
-    FourthRowBottom[0] = picked;
-  }
-  if(pmouseX > 482 && pmouseX < 528 && pmouseY > 621 && pmouseY < 660){
-    FourthRowBottom[1] = picked;
-  }
-  if(pmouseX > 528 && pmouseX < 574 && pmouseY > 621 && pmouseY < 660){
-    FourthRowBottom[2] = picked;
-  }
-  if(pmouseX > 574 && pmouseX < 620 && pmouseY > 621 && pmouseY < 660){
-    FourthRowBottom[3] = picked;
-  }
-  if(pmouseX > 620 && pmouseX < 666 && pmouseY > 621 && pmouseY < 660){
-    FourthRowBottom[4] = picked;
-  }
-  if(pmouseX > 666 && pmouseX < 712 && pmouseY > 621 && pmouseY < 660){
-    FourthRowBottom[5] = picked;
-  }
-  if(pmouseX > 712 && pmouseX < 758 && pmouseY > 621 && pmouseY < 660){
-    FourthRowBottom[6] = picked;
-  }
-  if(pmouseX > 758 && pmouseX < 804 && pmouseY > 621 && pmouseY < 660){
-    FourthRowBottom[7] = picked;
-  }
-  if(pmouseX > 804 && pmouseX < 850 && pmouseY > 621 && pmouseY < 660){
-    FourthRowBottom[8] = picked;
-  }
-  if(pmouseX > 850 && pmouseX < 889 && pmouseY > 621 && pmouseY < 660){
-    FourthRowBottom[9] = picked;
-  }
-  
-  // Special Keys
-  if(pmouseX > 350 && pmouseX < 428 && pmouseY > 668 && pmouseY < 707){
-    SpecialKeysBottom[0] = picked;
-  }
-  if(pmouseX > 368 && pmouseX < 412 && pmouseY > 338 && pmouseY < 377){
-    SpecialKeysBottom[1] = picked;
-  }
-  if(pmouseX > 423 && pmouseX < 467 && pmouseY > 338 && pmouseY < 377){
-    SpecialKeysBottom[2] = picked;
-  }
-  if(pmouseX > 477 && pmouseX < 533 && pmouseY > 338 && pmouseY < 377){
-    SpecialKeysBottom[3] = picked;
-  }
-  if(pmouseX > 543 && pmouseX < 699 && pmouseY > 338 && pmouseY < 377){
-    SpecialKeysBottom[4] = picked;
-  }
-  if(pmouseX > 776 && pmouseX < 832 && pmouseY > 338 && pmouseY < 377){
-    SpecialKeysBottom[5] = picked;
-  }
-  if(pmouseX > 842 && pmouseX < 886 && pmouseY > 338 && pmouseY < 377){
-    SpecialKeysBottom[6] = picked;
-  }
+}
 
-
-} //<>//
+void keyReleased(){
+  if(testerMode){
+    if(keyCode == 192){ //tilde
+      DisplayKeyboard[0] = TopKeyboardBlack[0];
+    }
+    else if(keyCode == 48){ //zero
+      DisplayKeyboard[10] = TopKeyboardBlack[10];
+    }
+    else if(keyCode == 49){ //one
+      DisplayKeyboard[1] = TopKeyboardBlack[1];
+    }
+    else if(keyCode == 50){ //two
+      DisplayKeyboard[2] = TopKeyboardBlack[2];
+    }
+    else if(keyCode == 51){ //three
+      DisplayKeyboard[3] = TopKeyboardBlack[3];
+    }
+    else if(keyCode == 52){ //four
+      DisplayKeyboard[4] = TopKeyboardBlack[4];
+    }
+    else if(keyCode == 53){ //five
+      DisplayKeyboard[5] = TopKeyboardBlack[5];
+    }
+    else if(keyCode == 54){ //six
+      DisplayKeyboard[6] = TopKeyboardBlack[6];
+    }
+    else if(keyCode == 55){ //seven
+      DisplayKeyboard[7] = TopKeyboardBlack[7];
+    }
+    else if(keyCode == 56){ //eight
+      DisplayKeyboard[8] = TopKeyboardBlack[8];
+    }
+    else if(keyCode == 57){ //nine
+      DisplayKeyboard[9] = TopKeyboardBlack[9];
+    }
+    else if(keyCode == 45){ //dash
+      DisplayKeyboard[11] = TopKeyboardBlack[11];
+    }
+    else if(keyCode == 61){ //Equal
+      DisplayKeyboard[12] = TopKeyboardBlack[12];
+    }
+    else if(keyCode == 81){ //Q
+      DisplayKeyboard[13] = TopKeyboardBlack[13];
+    }
+    else if(keyCode == 87){ //W
+      DisplayKeyboard[14] = TopKeyboardBlack[14];
+    }
+    else if(keyCode == 69){ //E
+      DisplayKeyboard[15] = TopKeyboardBlack[15];
+    }
+    else if(keyCode == 82){ //R
+      DisplayKeyboard[16] = TopKeyboardBlack[16];
+    }
+    else if(keyCode == 84){ //T
+      DisplayKeyboard[17] = TopKeyboardBlack[17];
+    }
+    else if(keyCode == 89){ //Y
+      DisplayKeyboard[18] = TopKeyboardBlack[18];
+    }
+    else if(keyCode == 85){ //U
+      DisplayKeyboard[19] = TopKeyboardBlack[19];
+    }
+    else if(keyCode == 73){ //I
+      DisplayKeyboard[20] = TopKeyboardBlack[20];
+    }
+    else if(keyCode == 79){ //O
+      DisplayKeyboard[21] = TopKeyboardBlack[21];
+    }
+    else if(keyCode == 80){ //P
+      DisplayKeyboard[22] = TopKeyboardBlack[22];
+    }
+    else if(keyCode == 91){ //[
+      DisplayKeyboard[23] = TopKeyboardBlack[23];
+    }
+    else if(keyCode == 93){ //]
+      DisplayKeyboard[24] = TopKeyboardBlack[24];
+    }
+    else if(keyCode == 92){ //\
+      DisplayKeyboard[25] = TopKeyboardBlack[25];
+    }
+    else if(keyCode == 65){ //A
+      DisplayKeyboard[26] = TopKeyboardBlack[26];
+    }
+    else if(keyCode == 83){ //S
+      DisplayKeyboard[27] = TopKeyboardBlack[27];
+    }
+    else if(keyCode == 68){ //D
+      DisplayKeyboard[28] = TopKeyboardBlack[28];
+    }
+    else if(keyCode == 70){ //F
+      DisplayKeyboard[29] = TopKeyboardBlack[29];
+    }
+    else if(keyCode == 71){ //G
+      DisplayKeyboard[30] = TopKeyboardBlack[30];
+    }
+    else if(keyCode == 72){ //H
+      DisplayKeyboard[31] = TopKeyboardBlack[31];
+    }
+    else if(keyCode == 74){ //J
+      DisplayKeyboard[32] = TopKeyboardBlack[32];
+    }
+    else if(keyCode == 75){ //K
+      DisplayKeyboard[33] = TopKeyboardBlack[33];
+    }
+    else if(keyCode == 76){ //L
+      DisplayKeyboard[34] = TopKeyboardBlack[34];
+    }
+    else if(keyCode == 59){ //;
+      DisplayKeyboard[35] = TopKeyboardBlack[35];
+    }
+    else if(keyCode == 222){ //'
+      DisplayKeyboard[36] = TopKeyboardBlack[36];
+    }
+    else if(keyCode == 10 || keyCode == RETURN || keyCode == ENTER ){ //Return
+      DisplayKeyboard[37] = TopKeyboardBlack[37];
+    }
+    else if(keyCode == 90){ //Z
+      DisplayKeyboard[38] = TopKeyboardBlack[38];
+    }
+    else if(keyCode == 88){ //X
+      DisplayKeyboard[39] = TopKeyboardBlack[39];
+    }
+    else if(keyCode == 67){ //C
+      DisplayKeyboard[40] = TopKeyboardBlack[40];
+    }
+    else if(keyCode == 86){ //V
+      DisplayKeyboard[41] = TopKeyboardBlack[41];
+    }
+    else if(keyCode == 66){ //B
+      DisplayKeyboard[42] = TopKeyboardBlack[42];
+    }
+    else if(keyCode == 78){ //N
+      DisplayKeyboard[43] = TopKeyboardBlack[43];
+    }
+    else if(keyCode == 77){ //M
+      DisplayKeyboard[44] = TopKeyboardBlack[44];
+    }
+    else if(keyCode == 44){ //,
+      DisplayKeyboard[45] = TopKeyboardBlack[45];
+    }
+    else if(keyCode == 46){ //.
+      DisplayKeyboard[46] = TopKeyboardBlack[4];
+    }
+    else if(keyCode == 47){ ///
+      DisplayKeyboard[47] = TopKeyboardBlack[47];
+    }
+    else if(keyCode == 16){ //Shift
+      DisplayKeyboard[48] = TopKeyboardBlack[48];
+    }
+    else if(keyCode == 17){ //Left Control
+      DisplayKeyboard[49] = TopKeyboardBlack[49];
+    }
+    else if(keyCode == 18){ //Option
+      DisplayKeyboard[50] = TopKeyboardBlack[50];
+      DisplayKeyboard[54] = TopKeyboardBlack[54];
+    }
+    else if(keyCode == 157){ //Left Command
+      DisplayKeyboard[51] = TopKeyboardBlack[51];
+      DisplayKeyboard[53] = TopKeyboardBlack[53];
+    }
+    else if(keyCode == 32){ //Space
+      DisplayKeyboard[52] = TopKeyboardBlack[52];
+    }
+  }
+}
 
 void remap(PImage Picked_Key){
   
