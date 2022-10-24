@@ -3,9 +3,11 @@ import controlP5.*;
 ControlP5 cp5;
 ControlP5 controlFont;
 DropdownList modeDropdown;
-boolean mapMode = true;
+boolean welcomeMode = true;
+boolean mapMode = false;
 boolean infoPopup = false;
 boolean testerMode = false;
+boolean saved = false;
 
 //UI Colors
 color greyBlue100 = color(33,43,54);
@@ -152,6 +154,8 @@ PImage Z_yellow;
 //Misc
 PImage Info_icon;
 PImage Confirm_Key;
+PImage Save_Key;
+PImage Start_Key;
 int msecMap;
 int msecTest;
 
@@ -165,6 +169,7 @@ void setup() {
   modeDropdown = cp5.addDropdownList("Mode: Key Map").setPosition(20, 20).
                   setFont(controlFont).setOpen(false);
   customize(modeDropdown); 
+  cp5.setAutoDraw(false);
   pickedIndex = 0;
   //Hardcoded Unselected Keys
   tilde_black = loadImage("Tilde_Key_Black.png");
@@ -277,6 +282,8 @@ void setup() {
   
   Info_icon = loadImage("info_icon.png");
   Confirm_Key = loadImage("Confirm_Key.png");
+  Save_Key = loadImage("Save_Key.png");
+  Start_Key = loadImage("Start_Key.png");
   
   picked = new PImage();
   
@@ -612,30 +619,50 @@ void draw() {
   fill(greyBlue50);
   noStroke();
   textFont(font);
-  rect(0,461,1300,330);
-  image(Info_icon, 1241, 20, 35,35);
-  checkMode();
-  rect(0,461,1300,330);
-  drawUnselectedTop();
-  if(mapMode){
-    //Keymap mode window
-    drawUnselectedBottom();
-    msecMap = millis();
-    
+  if(welcomeMode){
+    pushMatrix();
+    textAlign(CENTER);
+    fill(white);
+    textSize(60);
+    text("Welcome to our\nKeyboard Configuration Menu",640, 175);
+    image(Start_Key, 600, 390, 78, 36);
+    popMatrix();
   }
-  else if (testerMode){
-    //Key tester mode window
-    msecTest = millis();
-  }
+    else{
+      checkMode();
+      cp5.draw();
+      rect(0,461,1300,330);
+      image(Info_icon, 1241, 20, 35,35);
+      drawUnselectedTop();
+      if(mapMode){
+      //Keymap mode window
+      drawUnselectedBottom();
+      msecMap = millis();
+      
+    }
+    else if (testerMode){
+      //Key tester mode window
+      msecTest = millis();
+      image(Save_Key, 1095, 412, 78, 36);
+      if(saved){
+            pushMatrix();
+            fill(white);
+            textSize(15);
+            text("Configuration saved!", 1130, 400);
+            popMatrix();
+      }
+    }
     drawPopup();
     println("Time in ms for Mapping:" + msecMap);
     println("Time in ms for Testing:" + msecTest);
+  }
 }
 void checkMode(){
   int active = int(modeDropdown.getValue());
   if(active == 0){
     mapMode = true;
     testerMode = false;
+    saved = false;
   }
   else if(active == 1){
     mapMode = false;
@@ -786,6 +813,13 @@ void mousePressed() {
   if (!modeDropdown.isMouseOver()) {    
     modeDropdown.close();
   }
+  if(pmouseX > 600 && pmouseX < 678 && pmouseY > 390 && pmouseY < 426){
+    if(welcomeMode){
+      welcomeMode = false;
+      mapMode = true;
+    }
+    
+  }
   if(pmouseX > 1241 && pmouseX < 1276 && pmouseY > 20 && pmouseY < 55){
     if(!infoPopup){
       infoPopup = true;
@@ -796,6 +830,11 @@ void mousePressed() {
       infoPopup = false;
     }
   }
+  if(testerMode){
+    if(pmouseX > 1095 && pmouseX < 1173 && pmouseY > 412 && pmouseY < 448){
+      saved = true;
+    }
+   }
   // If statements to check what key is picked on the top keyboard
   if(mapMode){
     // If statements to check what key is picked on the top keyboard
@@ -956,7 +995,7 @@ void mousePressed() {
     }
     // Fourth row of keys
     if(pmouseX > 436 && pmouseX < 482 && pmouseY > 231 && pmouseY < 270){
-   DisplayKeyboard[38] = TopKeyboardYellow[38];
+    DisplayKeyboard[38] = TopKeyboardYellow[38];
     pickedIndex = 38;
     }
     if(pmouseX > 482 && pmouseX < 528 && pmouseY > 231 && pmouseY < 270){
